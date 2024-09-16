@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adria-500 BLANCO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+            font-family: 'Lato', sans-serif;
+            color: #333;
+            overflow-y: auto;
+        }
+        .container {
+            max-width: 360px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .product-block, .cart-summary {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .product-name {
+            font-size: 22px;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .price-unit {
+            font-size: 18px;
+            color: #ff7043;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .offer-message {
+            font-size: 16px;
+            color: #ff7043;
+            font-weight: 500;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .offer-message h2 {
+            font-size: 18px;
+            color: #ff5722;
+        }
+        .offer-message p {
+            font-size: 16px;
+            margin-top: 4px;
+            font-weight: 400;
+            color: #d35400;
+        }
+        .size-selection, .quantity-selection {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        select, input[type="number"] {
+            width: 60%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .add-to-cart {
+            background-color: #ff7043;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        .add-to-cart:hover {
+            background-color: #ff5722;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        .send-order {
+            background-color: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        .send-order:hover {
+            background-color: #1ebe5a;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        .details-button {
+            background-color: #ff7043;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .details-button:hover {
+            background-color: #ff5722;
+        }
+        .cart-summary {
+            text-align: center;
+        }
+        .totals {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        .totals div {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .details-container {
+            display: none;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            text-align: left;
+        }
+        .cart-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .cart-item.discounted {
+            background-color: #fff9e6;
+            border-left: 4px solid #f39c12;
+        }
+        .discount-label {
+            color: #e67e22;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .cart-item .product-info {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .cart-item .quantity-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .cart-item button {
+            background-color: #ff7043;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .cart-item button:hover {
+            background-color: #ff5722;
+        }
+        .cart-item .quantity {
+            margin: 0 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .cart-item .price {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff7043;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .add-to-cart, .send-order, .details-button {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="product-block" data-product-price="119.90" data-promotion="true">
+            <h2 class="product-name" id="product-name">Lara-607 NEGRO</h2>
+            <div class="price-unit">Precio: S/. <span id="unit-price">119.90</span></div>
+            <div class="offer-message">
+                <h2>🤩 APROVECHA 🤩</h2>
+                <p>Compra 2 pares y el segundo te cuesta la mitad de precio.</p>
+            </div>
+            <div class="size-selection">
+                <label for="size">Selecciona tu talla:</label>
+                <select id="size" name="size">
+                    <option value="34">34</option>
+                    <option value="35">35</option>
+                    <option value="36">36</option>
+                    <option value="37">37</option>
+                    <option value="38">38</option>
+                    <option value="39">39</option>
+                </select>
+            </div>
+            <div class="quantity-selection">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+            </div>
+            <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
+        </div>
+        <div class="cart-summary">
+            <h3>Carrito de Compras</h3>
+            <div class="totals">
+                <div>Total de unidades: <span id="total-units">0</span></div>
+                <div>Total a pagar: S/. <span id="total-price">0.00</span></div>
+            </div>
+            <div class="action-buttons">
+                <button class="details-button" onclick="toggleDetails()">Detalles</button>
+                <button class="send-order" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
+            </div>
+            <div class="details-container" id="details-container">
+                <div id="cart-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+	
+	// Llamada inicial para cargar el carrito al abrir la página
+	document.addEventListener('DOMContentLoaded', function() {
+	    	const productName = document.getElementById('product-name').textContent; // Obtener el nombre del producto
+    		document.title = productName; // Cambiar el título de la página
+    		updateCartSummary(); // Cargar el resumen del carrito al inicio
+});
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function addToCart() {
+    const productName = document.getElementById('product-name').textContent;
+    const size = document.getElementById('size').value;
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const price = parseFloat(document.querySelector('.product-block').getAttribute('data-product-price'));
+    const color = productName.split(' ')[1] || "Color no especificado";
+    const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+
+    const existingItem = cart.find(item => item.name === productName && item.size === size);
+
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({ name: productName, size, color, quantity, price, promotion: hasPromotion });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartSummary();
+}
+
+// Actualización del resumen del carrito
+function updateCartSummary() {
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalUnits = document.getElementById('total-units');
+    const totalPrice = document.getElementById('total-price');
+
+    cartItemsDiv.innerHTML = ''; // Limpiar carrito anterior
+    let totalUnitsValue = 0;
+    let totalPriceValue = 0;
+
+    // Crear un objeto para agrupar productos por nombre base (sin talla ni color)
+    const productGroups = {};
+
+    // Agrupar productos por nombre base
+    cart.forEach(item => {
+        const baseName = item.name.split(' ')[0]; // Usamos solo el nombre base sin color
+        if (!productGroups[baseName]) {
+            productGroups[baseName] = {
+                items: [], // Almacenamos todos los productos que comparten el mismo nombre base
+                totalQuantity: 0, // Cantidad total de productos con el mismo nombre base
+            };
+        }
+        productGroups[baseName].items.push(item);
+        productGroups[baseName].totalQuantity += item.quantity;
+    });
+
+    // Procesar cada grupo de productos (por nombre base)
+    for (const baseName in productGroups) {
+        const group = productGroups[baseName];
+        let discountEligibleCount = 0; // Contador para aplicar descuento
+
+        // Ordenamos los productos por talla y color antes de mostrarlos
+        group.items.forEach(product => {
+            let finalTotalPrice = 0;
+
+            // Aplicar descuento al segundo, cuarto, sexto, etc.
+            for (let i = 1; i <= product.quantity; i++) {
+                if ((discountEligibleCount + 1) % 2 === 0 && product.promotion) {
+                    finalTotalPrice += product.price / 2; // 50% de descuento
+                } else {
+                    finalTotalPrice += product.price; // Precio completo
+                }
+                discountEligibleCount++;
+            }
+
+            totalUnitsValue += product.quantity;
+            totalPriceValue += finalTotalPrice;
+
+            // Crear el bloque HTML para este producto
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'cart-item';
+            itemDiv.innerHTML = `
+                <div class="product-info">${product.name} (Talla: ${product.size}, Color: ${product.color})</div>
+                <div class="quantity-controls">
+                    <button class="decrease" data-key="${product.name}-${product.size}-${product.color}">-</button>
+                    <span class="quantity">${product.quantity}</span>
+                    <button class="increase" data-key="${product.name}-${product.size}-${product.color}">+</button>
+                </div>
+                <div class="price">S/. ${finalTotalPrice.toFixed(2)}</div>
+            `;
+
+            // Mostrar el mensaje de descuento solo si se aplica
+            if (product.promotion && (discountEligibleCount % 2 === 0)) {
+                itemDiv.classList.add('discounted');
+                itemDiv.innerHTML += `
+                    <div class="discount-label">
+                        ¡Descuento aplicado al segundo par! Este producto tiene un 50% de descuento.
+                    </div>
+                `;
+            }
+
+            cartItemsDiv.appendChild(itemDiv);
+        });
+    }
+
+    // Actualizar los valores totales en el carrito
+    totalUnits.textContent = totalUnitsValue;
+    totalPrice.textContent = totalPriceValue.toFixed(2);
+
+    // Añadir event listeners para los botones de aumentar y disminuir cantidad
+    addEventListeners();
+}
+
+function addEventListeners() {
+    const decreaseButtons = document.querySelectorAll('.decrease');
+    const increaseButtons = document.querySelectorAll('.increase');
+
+    decreaseButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const key = event.target.getAttribute('data-key');
+            updateQuantity(key, -1);
+        });
+    });
+
+    increaseButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const key = event.target.getAttribute('data-key');
+            updateQuantity(key, 1);
+        });
+    });
+}
+
+// Actualización de la cantidad de productos
+function updateQuantity(key, change) {
+    cart.forEach(item => {
+        const itemKey = `${item.name}-${item.size}-${item.color}`;
+        if (itemKey === key) {
+            item.quantity += change;
+
+            // Si la cantidad es menor o igual a 0, eliminar el producto del carrito
+            if (item.quantity <= 0) {
+                cart = cart.filter(cartItem => cartItem !== item);
+            }
+        }
+    });
+
+    // Guardar el carrito actualizado en localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Actualizar el resumen del carrito
+    updateCartSummary();
+}
+
+// Alternar visibilidad de detalles
+function toggleDetails() {
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.style.display = detailsContainer.style.display === "block" ? "none" : "block";
+}
+
+// Enviar pedido por WhatsApp
+function sendOrder() {
+    let message = '🛒 *Pedido de productos:* \n\n';
+    cart.forEach(item => {
+        message += `*Producto:* ${item.name} ${item.color}\n*Talla:* ${item.size}\n*Cantidad:* ${item.quantity}\n\n`;
+    });
+
+    const totalPrice = document.getElementById('total-price').textContent;
+    message += `*Total a pagar:* S/. ${totalPrice}\n`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+   
+    </script>
+
+
+</body></html>
