@@ -1,329 +1,319 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producto - Carrito</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto - Carrito</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            background-color: #f4f7f6;
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-            overflow-y: auto;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      background-color: #f4f7f6;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      overflow-y: auto;
+    }
 
-        .container {
-            max-width: 360px;
-            width: 100%;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+    .container {
+      max-width: 360px;
+      width: 100%;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
 
-        .product-block, .cart-summary {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+    .product-block,
+    .cart-summary {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
 
-        .product-name, .cart-summary h3 {
-            background: linear-gradient(45deg, #ff5722, #ff7043);
-            color: white;
-            font-weight: 700;
-            font-size: 20px;
-            padding: 10px;
-            border-radius: 50px;
-            margin-bottom: 8px;
-        }
+    .product-name,
+    .cart-summary h3 {
+      background: linear-gradient(45deg, #ff5722, #ff7043);
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 3px 2px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
 
-        .price-unit {
-            font-size: 18px;
-            color: #ff7043;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
+    .price-unit {
+      font-size: 18px;
+      color: #ff7043;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
 
-        .promotion-message {
-            color: #e74c3c;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    .promotion-message {
+      color: #e74c3c;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
 
-        .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-        .row div {
-            flex: 1;
-            margin: 0 5px;
-        }
+    .row div {
+      flex: 1;
+      margin: 0 5px;
+    }
 
-        select, input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            color: #333;
-            background-color: #f9f9f9;
-            text-align: center;
-        }
+    select,
+    input[type="number"] {
+      width: 75%;
+      padding: 5px 5px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
 
-        /* Botones con gradiente */
-        .add-to-cart, .details-button, .send-order {
-            background: linear-gradient(45deg, #ff5722, #ff7043);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 15px; 
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
+    /* Botones con gradiente */
+    .add-to-cart,
+    .details-button,
+    .send-order {
+      background: linear-gradient(45deg, #ff5722, #ff7043);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .add-to-cart:hover, .details-button:hover {
-            background: linear-gradient(45deg, #ff7043, #ff5722);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
+    .add-to-cart:hover,
+    .details-button:hover {
+      background: linear-gradient(45deg, #ff7043, #ff5722);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
 
-        .send-order {
-            background: linear-gradient(45deg, #25D366, #128C7E);
-        }
+    .send-order {
+      background: linear-gradient(45deg, #25D366, #128C7E);
+    }
 
-        .send-order:hover {
-            background: linear-gradient(45deg, #128C7E, #25D366);
-        }
+    .send-order:hover {
+      background: linear-gradient(45deg, #128C7E, #25D366);
+    }
 
-        .totals {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #333;
-        }
+    .totals {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
 
-        .totals div {
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
+    .totals div {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
 
-        .details-container {
-            display: none;
-            margin-top: 10px;
-            text-align: left;
-        }
+    .details-container {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
 
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-        }
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
 
-        .cart-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+    .cart-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
 
-        .product-info {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    .product-info {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
 
-        .quantity-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 5px;
-        }
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+    }
 
-        .quantity-controls button {
-            background-color: #ff7043;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
+    .quantity-controls button {
+      background-color: #ff7043;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
-        .quantity-controls button:hover {
-            background-color: #ff5722;
-        }
+    .quantity-controls button:hover {
+      background-color: #ff5722;
+    }
 
-        .quantity {
-            margin: 0 10px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+    .quantity {
+      margin: 0 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
 
-        .price {
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #ff7043;
-        }
+    .price {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ff7043;
+    }
 
-        .discounted {
-            background-color: #fff5e1; /* Sombreado para productos con descuento */
-            border-left: 4px solid #ff7043;
-        }
+    .discounted {
+      background-color: #fff5e1;
+      /* Sombreado para productos con descuento */
+      border-left: 4px solid #ff7043;
+    }
 
-        .discount-label {
-            color: #e74c3c;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 5px;
-        }
+    .discount-label {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 5px;
+    }
 
-        /* Toast CSS */
-        #toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
+    /* Toast CSS */
+    #toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
 
-        .toast {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+    .toast {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-        .toast.show {
-            opacity: 1;
-        }
-    </style>
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="product-block" data-product-price="119.90" data-promotion="true">
-            <h2 class="product-name" id="product-name">Adria-500 BLANCO</h2>
-            <div class="price-unit">Precio: S/. <span id="unit-price">119.90</span></div>
+  <div class="container">
+    <div class="product-block" data-product-price="119.90" data-promotion="true">
+      <h2 class="product-name" id="product-name">Adria-500 BLANCO</h2>
+      <div class="price-unit">Precio: S/. <span id="unit-price">119.90</span></div>
 
-            <!-- Aviso de promoción debajo del precio principal -->
-            <div class="promotion-message" id="promotion-message" style="display: none;">
-                ¡Descuento del 50% en el segundo par!
-            </div>
+      <!-- Aviso de promoción debajo del precio principal -->
+      <div class="promotion-message" id="promotion-message" style="display: none;">
+        ¡Descuento del 50% en el segundo par!
+      </div>
 
-            <div class="row">
-                <div class="size-selection">
-                    <label for="size">Talla:</label>
-                    <select id="size" name="size">
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                    </select>
-                </div>
-                <div class="quantity-selection">
-                    <label for="quantity">Cantidad:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
-                </div>
-            </div>
-            <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
+      <div class="row">
+        <div class="size-selection">
+          <label for="size">Talla:</label>
+          <select id="size" name="size">
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+          </select>
         </div>
-
-        <div class="cart-summary">
-            <h3>Carrito de compras</h3>
-            <div class="totals">
-                <div>Total de unidades: <span id="total-units">0</span></div>
-                <div>Total a pagar: S/. <span id="total-price">0.00</span></div>
-            </div>
-            <div class="action-buttons">
-                <button class="details-button" onclick="toggleDetails()">Detalles</button>
-                <button class="send-order" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
-            </div>
-            <div class="details-container" id="details-container">
-                <div id="cart-items"></div>
-            </div>
+        <div class="quantity-selection">
+          <label for="quantity">Cantidad:</label>
+          <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
         </div>
-
-        <!-- Toast notifications -->
-        <div id="toast-container"></div>
+      </div>
+      <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
     </div>
 
-    <script>
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    <div class="cart-summary">
+      <h3>Carrito de compras</h3>
+      <div class="totals">
+        <div>Total de unidades: <span id="total-units">0</span></div>
+        <div>Total a pagar: S/. <span id="total-price">0.00</span></div>
+      </div>
+      <div class="action-buttons">
+        <button class="details-button" onclick="toggleDetails()">Detalles</button>
+        <button class="send-order" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
+      </div>
+      <div class="details-container" id="details-container">
+        <div id="cart-items"></div>
+      </div>
+    </div>
 
-        // Agrupación de productos por nombre
-        function groupProductsByName(cart) {
-            const groupedCart = {};
-            cart.forEach(item => {
-                if (!groupedCart[item.name]) {
-                    groupedCart[item.name] = {
-                        name: item.name,
-                        totalQuantity: 0,
-                        items: [],
-                        price: item.price,
-                        promotion: item.promotion
-                    };
-                }
-                groupedCart[item.name].totalQuantity += item.quantity;
-                groupedCart[item.name].items.push(item);
-            });
-            return Object.values(groupedCart);
-        }
+    <!-- Toast notifications -->
+    <div id="toast-container"></div>
+  </div>
 
-        function addToCart() {
-            const productName = document.getElementById('product-name').textContent;
-            const size = document.getElementById('size').value;
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const price = parseFloat(document.querySelector('.product-block').getAttribute('data-product-price'));
-            const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            const existingItem = cart.find(item => item.name === productName && item.size === size);
+    // Función para agregar productos al carrito
+    function addToCart() {
+      const productName = document.getElementById('product-name').textContent;
+      const size = document.getElementById('size').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const price = parseFloat(document.querySelector('.product-block').getAttribute('data-product-price'));
+      const promotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
 
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                cart.push({
-                    name: productName,
-                    size: size,
-                    quantity: quantity,
-                    price: price,
-                    promotion: hasPromotion
-                });
-            }
+      const existingItem = cart.find(item => item.name === productName && item.size === size);
 
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartSummary();
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          name: productName,
+          size: size,
+          quantity: quantity,
+          price: price,
+          promotion: promotion
+        });
+      }
 
-            // Mostrar el toast
-            showToast('Producto añadido al carrito');
-        }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartSummary();
+      showToast('Producto añadido al carrito');
+    }
 
+    // Función para actualizar el resumen del carrito
 function updateCartSummary() {
     const cartItemsDiv = document.getElementById('cart-items');
     const totalUnits = document.getElementById('total-units');
@@ -333,45 +323,60 @@ function updateCartSummary() {
     let totalUnitsValue = 0;
     let totalPriceValue = 0;
 
-    const groupedCart = groupProductsByName(cart);
+    // Agrupar productos por nombre del modelo (sin importar talla o color)
+    const groupedCart = {};
+    cart.forEach(item => {
+        const productKey = item.name; // Agrupar por el nombre del producto
 
-    groupedCart.forEach(group => {
+        if (!groupedCart[productKey]) {
+            groupedCart[productKey] = {
+                name: item.name,
+                totalQuantity: 0,
+                items: [],
+                price: item.price,
+                promotion: item.promotion
+            };
+        }
+        groupedCart[productKey].totalQuantity += item.quantity;
+        groupedCart[productKey].items.push(item);
+    });
+
+    // Recalcular el precio y el descuento para cada grupo
+    Object.values(groupedCart).forEach(group => {
         const { name, totalQuantity, items, price, promotion } = group;
 
         totalUnitsValue += totalQuantity;
-        let groupTotalPrice = 0;
-        let discountedPairs = 0; // Contador para los pares con descuento
+        let currentPair = 1; // Contador para saber cuándo aplicar el descuento
+        let groupTotalPrice = 0; // Precio total para el grupo
+        let totalPairsWithDiscount = 0; // Total de pares que recibieron descuento en el grupo
 
-        // Aplica descuento si es necesario
-        if (promotion) {
-            let currentPair = 1; // Contador de pares
-            items.forEach((item) => {
-                for (let i = 1; i <= item.quantity; i++) {
-                    if (currentPair % 2 === 0) {
-                        // Cada segundo par tiene descuento
-                        groupTotalPrice += price / 2;
-                        discountedPairs++;
-                    } else {
-                        groupTotalPrice += price;
-                    }
-                    currentPair++;
-                }
-            });
-        } else {
-            groupTotalPrice = totalQuantity * price;
-        }
-
-        totalPriceValue += groupTotalPrice;
-
-        // Renderizar cada ítem del grupo con la cantidad y el precio
-        items.forEach((item) => {
+        items.forEach(item => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'cart-item';
-            const itemTotalPrice = (item.quantity * price).toFixed(2); // Precio total sin descuento
+            let totalPriceForItem = 0; // Total para este ítem
+            let pairsDiscounted = 0;
 
-            // Mostrar el mensaje de descuento si aplica
-            const discountMessage = discountedPairs > 0 ? `<div class="discount-label">🎉 ¡Descuento aplicado a ${discountedPairs} par(es)!</div>` : '';
+            // Aplicar descuento solo a los productos pares (segundo, cuarto, etc.)
+            for (let i = 1; i <= item.quantity; i++) {
+                if (promotion && currentPair % 2 === 0) {
+                    totalPriceForItem += price / 2; // Descuento del 50% al par
+                    pairsDiscounted++; // Contador de pares con descuento
+                } else {
+                    totalPriceForItem += price; // Precio completo para productos no pares
+                }
+                currentPair++;
+            }
 
+            groupTotalPrice += totalPriceForItem; // Sumar el total de este ítem al grupo
+            totalPairsWithDiscount += pairsDiscounted;
+
+            // Mostrar el mensaje de descuento solo si al menos un par se ha descontado
+            let discountMessage = '';
+            if (promotion && totalPairsWithDiscount > 0) {
+                discountMessage = `<div class="discount-label">🎉 ¡Descuento aplicado a ${totalPairsWithDiscount} par(es)!</div>`;
+            }
+
+            // Mostrar el precio total ajustado por cada producto
             itemDiv.innerHTML = `
                 <div class="product-info">${item.name} (Talla: ${item.size})</div>
                 <div class="quantity-controls">
@@ -379,115 +384,122 @@ function updateCartSummary() {
                     <span class="quantity">${item.quantity}</span>
                     <button onclick="updateQuantity('${item.name}', '${item.size}', 1)">+</button>
                 </div>
-                <div class="price" style="color: #ff7043;">S/. ${(groupTotalPrice).toFixed(2)}</div>
-                ${discountMessage}  <!-- Aquí se muestra el mensaje de descuento -->
+                <div class="price" style="color: #ff7043;">S/. ${totalPriceForItem.toFixed(2)}</div>
+                ${discountMessage}
             `;
 
             cartItemsDiv.appendChild(itemDiv);
         });
+
+        totalPriceValue += groupTotalPrice; // Sumar el total del grupo al total global
     });
 
+    // Actualizar el total de unidades y el precio total
     totalUnits.textContent = totalUnitsValue;
     totalPrice.textContent = totalPriceValue.toFixed(2);
 }
 
-        function updateQuantity(productName, size, change) {
-            cart.forEach(item => {
-                if (item.name === productName && item.size === size) {
-                    item.quantity += change;
-
-                    if (item.quantity <= 0) {
-                        cart = cart.filter(cartItem => cartItem !== item);
-                    }
-                }
-            });
-
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartSummary();
+    function updateQuantity(productName, size, change) {
+      cart.forEach(item => {
+        if (item.name === productName && item.size === size) {
+          item.quantity += change;
+          if (item.quantity <= 0) {
+            cart = cart.filter(cartItem => cartItem !== item);
+          }
         }
+      });
 
-        function toggleDetails() {
-            const detailsContainer = document.getElementById('details-container');
-            detailsContainer.style.display = detailsContainer.style.display === "block" ? "none" : "block";
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartSummary();
+    }
+
+    function toggleDetails() {
+      const detailsContainer = document.getElementById('details-container');
+      detailsContainer.style.display = detailsContainer.style.display === "block" ? "none" : "block";
+    }
+
+    function sendOrder() {
+      if (cart.length === 0) {
+        alert("El carrito está vacío. Agrega productos antes de enviar el pedido.");
+        return;
+      }
+
+      let message = '🛒 *Pedido de productos:* \n\n';
+
+      const groupedCart = {};
+      cart.forEach(item => {
+        const productKey = item.name;
+        if (!groupedCart[productKey]) {
+          groupedCart[productKey] = {
+            name: item.name,
+            totalQuantity: 0,
+            items: [],
+            price: item.price,
+            promotion: item.promotion
+          };
         }
+        groupedCart[productKey].totalQuantity += item.quantity;
+        groupedCart[productKey].items.push(item);
+      });
 
-        function sendOrder() {
-            if (cart.length === 0) {
-                alert("El carrito está vacío. Agrega productos antes de enviar el pedido.");
-                return;
+      Object.values(groupedCart).forEach(group => {
+        const { name, items, price, promotion } = group;
+        let pairsWithDiscount = 0;
+
+        items.forEach(item => {
+          let subtotal = 0;
+          if (promotion) {
+            for (let i = 1; i <= item.quantity; i++) {
+              if (i % 2 === 0) {
+                subtotal += item.price / 2;
+                pairsWithDiscount++;
+              } else {
+                subtotal += item.price;
+              }
             }
+          } else {
+            subtotal = item.price * item.quantity;
+          }
 
-            let message = '🛒 *Pedido de productos:* \n\n';
+          message += `🛍️ *Producto:* ${item.name}\n🔖 *Talla:* ${item.size}\n📦 *Cantidad:* ${item.quantity}\n💰 *Subtotal:* S/. ${subtotal.toFixed(2)}\n\n`;
 
-            const groupedCart = groupProductsByName(cart);
-            groupedCart.forEach(group => {
-                const { name, totalQuantity, items, price, promotion } = group;
-
-                let pairsWithDiscount = 0;
-                let discountedItems = [];
-
-                // Cálculo y detalle de cada producto
-                items.forEach((item, index) => {
-                    let subtotal = 0;
-
-                    // Aplicar el descuento al mensaje de WhatsApp
-                    if (promotion) {
-                        for (let i = 1; i <= item.quantity; i++) {
-                            if (i % 2 === 0) {
-                                subtotal += item.price / 2; // Aplicar descuento en el segundo par
-                                pairsWithDiscount++;
-                            } else {
-                                subtotal += item.price;
-                            }
-                        }
-                    } else {
-                        subtotal = item.price * item.quantity;
-                    }
-
-                    // Añadir al mensaje con subtotal correcto
-                    message += `🛍️ *Producto:* ${item.name}\n🔖 *Talla:* ${item.size}\n📦 *Cantidad:* ${item.quantity}\n💰 *Subtotal:* S/. ${subtotal.toFixed(2)}\n\n`;
-
-                    // Si es un par con descuento, indicarlo en el mensaje
-                    if (pairsWithDiscount > 0) {
-                        message += `🎉 ¡Descuento aplicado a ${pairsWithDiscount} par(es)!\n`;
-                    }
-                });
-            });
-
-            const totalPrice = document.getElementById('total-price').textContent;
-            message += `💵 *Total a pagar:* S/. ${totalPrice}\n📱 *Gracias por tu compra!*\n`;
-
-            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function showToast(message) {
-            const toastContainer = document.getElementById('toast-container');
-
-            // Crear el elemento "toast"
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-
-            toastContainer.appendChild(toast);
-
-            // Mostrar y luego ocultar el toast
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toastContainer.removeChild(toast);
-            }, 3000);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartSummary();
-
-            // Mostrar el mensaje de promoción si hay una promoción activa
-            const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
-            if (hasPromotion) {
-                document.getElementById('promotion-message').style.display = 'block';
-            }
+          if (pairsWithDiscount > 0) {
+            message += `🎉 ¡Descuento aplicado a ${pairsWithDiscount} par(es)!\n`;
+          }
         });
-    </script>
+      });
+
+      const totalPrice = document.getElementById('total-price').textContent;
+      message += `💵 *Total a pagar:* S/. ${totalPrice}\n📱 *Gracias por tu compra!*\n`;
+
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function showToast(message) {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => toast.classList.add('show'), 100);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toastContainer.removeChild(toast);
+      }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      updateCartSummary();
+
+      const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+      if (hasPromotion) {
+        document.getElementById('promotion-message').style.display = 'block';
+      }
+    });
+  </script>
 </body>
+
 </html>
