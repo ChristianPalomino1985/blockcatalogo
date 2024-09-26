@@ -1,378 +1,609 @@
-<!DOCTYPE html><html lang="es"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layla-132 BLANCO CELESTE</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            background-color: #f4f7f6;
-            font-family: 'Lato', sans-serif;
-            color: #333;
-            overflow-y: auto;
-        }
-        .container {
-            max-width: 360px;
-            width: 100%;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .product-block, .cart-summary {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-        .product-name {
-            font-size: 22px;
-            color: #333;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .price-unit {
-            font-size: 18px;
-            color: #ff7043;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .size-selection, .quantity-selection {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-size: 14px;
-        }
-        select, input[type="number"] {
-            width: 70%;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            color: #333;
-            background-color: #f9f9f9;
-        }
-        .add-to-cart {
-            background-color: #ff7043;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-        .add-to-cart:hover {
-            background-color: #ff5722;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        .send-order {
-            background-color: #25D366;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-        .send-order:hover {
-            background-color: #1ebe5a;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        .details-button {
-            background-color: #ff7043;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .details-button:hover {
-            background-color: #ff5722;
-        }
-        .cart-summary {
-            text-align: center;
-        }
-        .totals {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #333;
-        }
-        .totals div {
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        .details-container {
-            display: none;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-            text-align: left;
-        }
-        .cart-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-        .cart-item.discounted {
-            background-color: #fff9e6; /* Fondo amarillo claro */
-            border-left: 4px solid #f39c12; /* Borde resaltado */
-        }
-        .discount-label {
-            color: #e67e22;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        .cart-item .product-info {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .cart-item .quantity-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .cart-item button {
-            background-color: #ff7043;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .cart-item button:hover {
-            background-color: #ff5722;
-        }
-        .cart-item .quantity {
-            margin: 0 10px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .cart-item .price {
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #ff7043;
-        }
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="product-block" data-product-price="119.90" data-promotion="false">
-            <h2 class="product-name" id="product-name">Adria-515 MALVA</h2>
-            <div class="price-unit">Precio: S/. <span id="unit-price">119.90</span></div>
-            <div class="size-selection">
-                <label for="size">Selecciona tu talla:</label>
-                <select id="size" name="size">
-                    <option value="34">34</option>
-                    <option value="35">35</option>
-                    <option value="36">36</option>
-                    <option value="37">37</option>
-                    <option value="38">38</option>
-                    <option value="39">39</option>
-                </select>
-            </div>
-            <div class="quantity-selection">
-                <label for="quantity">Cantidad:</label>
-                <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
-            </div>
-            <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
-        </div>
+<!DOCTYPE html>
+<html lang="es">
 
-        <div class="cart-summary">
-            <h3>Carrito de Compras</h3>
-            <div class="totals">
-                <div>Total de unidades: <span id="total-units">0</span></div>
-                <div>Total a pagar: S/. <span id="total-price">0.00</span></div>
-            </div>
-            <div class="action-buttons">
-                <button class="details-button" onclick="toggleDetails()">Detalles</button>
-                <button class="send-order" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
-            </div>
-            <div class="details-container" id="details-container">
-                <div id="cart-items"></div>
-            </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADRIA-515 MALVA </title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      background-color: #f4f7f6;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 360px;
+      width: 100%;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .product-block,
+    .cart-summary {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .product-name,
+    .cart-summary h3 {
+      background: linear-gradient(45deg, #ff5722, #ff7043);
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 3px 2px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .price-unit {
+      font-size: 18px;
+      color: #ff7043;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .promotion-message {
+      color: #e74c3c;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .row div {
+      flex: 1;
+      margin: 0 5px;
+    }
+
+    select,
+    input[type="number"] {
+      width: 75%;
+      padding: 5px 5px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    .add-to-cart,
+    .details-button,
+    .send-order {
+      background: linear-gradient(45deg, #ff5722, #ff7043);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-to-cart:hover,
+    .details-button:hover {
+      background: linear-gradient(45deg, #ff7043, #ff5722);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .send-order {
+      background: linear-gradient(45deg, #25D366, #128C7E);
+    }
+
+    .send-order:hover {
+      background: linear-gradient(45deg, #128C7E, #25D366);
+    }
+
+    .totals {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .totals div {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .details-container {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .cart-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .product-info {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .quantity-controls button {
+      background-color: #ff7043;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .quantity-controls button:hover {
+      background-color: #ff5722;
+    }
+
+    .quantity {
+      margin: 0 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .price {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ff7043;
+    }
+
+    .discount-label {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    /* Toast CSS */
+    #toast-container {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background-color: #333;
+      color: white;
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .toast {
+        padding: 3px 7px;
+        font-size: 10px;
+      }
+    }
+
+    /* Promo Shampoo Button */
+    .promo-alert {
+      background-color: #fff5e1;
+      padding: 10px;
+      margin-top: 20px;
+      border-left: 4px solid #ff7043;
+      border-radius: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    button.promo-button {
+      background: linear-gradient(45deg, #ff5722, #ff7043);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button.promo-button:hover {
+      background: linear-gradient(45deg, #ff7043, #ff5722);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Estilos para ocultar controles de cantidad del shampoo promocional */
+    .shampoo-promo .quantity-controls {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="product-block" data-product-price="119.9" data-promotion="false">
+      <h2 class="product-name" id="product-name">ADRIA-515 MALVA </h2>
+      <div class="price-unit">Precio: S/. 119.9</div>
+
+      <!-- Aviso de promoción debajo del precio principal -->
+      <div class="promotion-message" id="promotion-message" style="display: none;">
+        ¡Descuento del 50% en el segundo par!
+      </div>
+
+      <div class="row">
+        <div class="size-selection">
+          <label for="size">Talla:</label>
+          <select id="size" name="size">
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+          </select>
         </div>
+        <div class="quantity-selection">
+          <label for="quantity">Cantidad:</label>
+          <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+        </div>
+      </div>
+      <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-	    	const productName = document.getElementById('product-name').textContent; // Obtener el nombre del producto
-    		document.title = productName; // Cambiar el título de la página	
-            updateCartSummary(); // Solución al problema del carrito vacío al cargar
+    <!-- Contenedor para el mensaje de promoción -->
+    <div id="promo-message-container"></div>
+
+    <div class="cart-summary">
+      <h3>Carrito de compras</h3>
+      <div class="totals">
+        <div>Total de unidades: <span id="total-units">0</span></div>
+        <div>Total a pagar: S/. <span id="total-price">0.00</span></div>
+      </div>
+      <div class="action-buttons">
+        <button class="details-button" onclick="toggleDetails()">Detalles</button>
+        <button class="send-order" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
+      </div>
+      <div class="details-container" id="details-container">
+        <div id="cart-items"></div>
+      </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast-container"></div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const shampooPromo = {
+      name: "SHAMPOO AZALEIA-001",
+      regularPrice: 29.9,
+      promoPrice: 11.9,
+      promoThreshold: 129.9  // Umbral de la promoción
+    };
+
+    function addToCart() {
+      const productName = document.getElementById('product-name').textContent;
+      const size = document.getElementById('size').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const price = parseFloat(document.querySelector('.product-block').getAttribute('data-product-price'));
+      const promotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+
+      const existingItem = cart.find(item => item.name === productName && item.size === size);
+
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          name: productName,
+          size: size,
+          quantity: quantity,
+          price: price,
+          promotion: promotion
         });
+      }
 
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartSummary();
+      updatePromoMessage();
+      showToast('Producto añadido al carrito');
+    }
 
-        function addToCart() {
-            const productName = document.getElementById('product-name').textContent || "Nombre desconocido";
-            const size = document.getElementById('size').value || "Talla no especificada";
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
-            const price = parseFloat(document.querySelector('.product-block').getAttribute('data-product-price')) || 0.00;
-            const color = productName.split(' ')[1] || "Color no especificado";
-            const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+function updateCartSummary() {
+  const cartItemsDiv = document.getElementById('cart-items');
+  const totalUnits = document.getElementById('total-units');
+  const totalPrice = document.getElementById('total-price');
 
-            // Verificar si el producto ya existe en el carrito
-            const existingItem = cart.find(item => item.name === productName && item.size === size);
+  cartItemsDiv.innerHTML = '';
+  let totalUnitsValue = 0;
+  let totalPriceValue = 0;
 
-            if (existingItem) {
-                // Si el producto ya existe en el carrito, solo sumar la cantidad
-                existingItem.quantity += quantity;
-            } else {
-                // Si el producto no existe, agregarlo al carrito
-                cart.push({
-                    name: productName,
-                    size: size,
-                    color: color,
-                    quantity: quantity,
-                    price: price,
-                    promotion: hasPromotion
-                });
-            }
+  const groupedCart = {};
+  cart.forEach(item => {
+    const productKey = item.name;
+    if (!groupedCart[productKey]) {
+      groupedCart[productKey] = {
+        name: item.name,
+        totalQuantity: 0,
+        items: [],
+        price: item.price,
+        promotion: item.promotion
+      };
+    }
+    groupedCart[productKey].totalQuantity += item.quantity;
+    groupedCart[productKey].items.push(item);
+  });
 
-            // Guardar el carrito actualizado en localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
+  Object.values(groupedCart).forEach(group => {
+    const { name, totalQuantity, items, price, promotion } = group;
+    totalUnitsValue += totalQuantity;
+    let currentPair = 1;
+    let groupTotalPrice = 0;
 
-            // Actualizar el resumen del carrito
-            updateCartSummary();
-        }
-	
-	function updateCartSummary() {
-    const cartItemsDiv = document.getElementById('cart-items');
-    const totalUnits = document.getElementById('total-units');
-    const totalPrice = document.getElementById('total-price');
+    items.forEach(item => {
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item';
+      let totalPriceForItem = 0;
+      let discountMessage = '';
 
-    cartItemsDiv.innerHTML = '';
-    let totalUnitsValue = 0;
-    let totalPriceValue = 0;
-
-    let discountEligibleCount = 0; // Contador para productos que califican para el descuento
-
-    cart.forEach(item => {
-        totalUnitsValue += item.quantity;
-
-        // Si el producto tiene promoción, aplicar descuento
-        let itemTotalPrice = item.quantity * item.price;
-        let finalTotalPrice = 0;
-
-        if (item.promotion) {  // Aplicar descuento solo si el producto está en promoción
-            for (let i = 1; i <= item.quantity; i++) {
-                // Aplicar descuento al segundo, cuarto, sexto, etc. producto solo para productos promocionados
-                if ((discountEligibleCount + 1) % 2 === 0) {
-                    finalTotalPrice += item.price / 2;  // 50% de descuento
-                } else {
-                    finalTotalPrice += item.price;  // Precio completo
-                }
-                discountEligibleCount++;
-            }
+      for (let i = 1; i <= item.quantity; i++) {
+        if (promotion && currentPair % 2 === 0) {
+          totalPriceForItem += price / 2;
+          discountMessage = `<div class="discount-label">🎉 ¡Descuento aplicado! 🎉</div>`;
         } else {
-            // Si no está en promoción, calcular el precio normalmente
-            finalTotalPrice = itemTotalPrice;
+          totalPriceForItem += price;
         }
+        currentPair++;
+      }
 
-        totalPriceValue += finalTotalPrice;
+      groupTotalPrice += totalPriceForItem;
 
-        // Crear el bloque HTML para este producto
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'cart-item';
-        itemDiv.innerHTML = `
-            <div class="product-info">${item.name} (Talla: ${item.size}, Color: ${item.color})</div>
-            <div class="quantity-controls">
-                <button onclick="updateQuantity('${item.name}', '${item.size}', -1)">-</button>
-                <span class="quantity">${item.quantity}</span>
-                <button onclick="updateQuantity('${item.name}', '${item.size}', 1)">+</button>
-            </div>
-            <div class="price">S/. ${finalTotalPrice.toFixed(2)}</div>
-        `;
+      // Ocultar botones de agregar/disminuir solo para el shampoo promocional
+      const isPromoShampoo = item.name === shampooPromo.name && item.price === shampooPromo.promoPrice;
 
-        // Mostrar el mensaje de descuento solo si aplica y si el producto tiene promoción
-        if (item.promotion && (discountEligibleCount % 2 === 0)) {
-            itemDiv.classList.add('discounted');
-            itemDiv.innerHTML += `
-                <div class="discount-label">
-                    ¡Descuento aplicado al segundo par! Este producto tiene un 50% de descuento.
-                </div>
-            `;
-        }
-
-        cartItemsDiv.appendChild(itemDiv);
+      itemDiv.innerHTML = `
+        <div class="product-info">${item.name} (Talla: ${item.size})</div>
+        <div class="quantity-controls ${isPromoShampoo ? 'shampoo-promo' : ''}">
+          ${!isPromoShampoo ? `
+          <button onclick="updateQuantity('${item.name}', '${item.size}', -1)">-</button>
+          <span class="quantity">${item.quantity}</span>
+          <button onclick="updateQuantity('${item.name}', '${item.size}', 1)">+</button>
+          ` : `
+          <span class="quantity">${item.quantity}</span> <!-- Solo mostrar la cantidad sin controles -->
+          `}
+        </div>
+        <div class="price" style="color: #ff7043;">S/. ${totalPriceForItem.toFixed(2)}</div>
+        ${discountMessage}
+      `;
+      cartItemsDiv.appendChild(itemDiv);
     });
 
-    // Actualizar los valores totales en el carrito
-    totalUnits.textContent = totalUnitsValue;
-    totalPrice.textContent = totalPriceValue.toFixed(2);
+    totalPriceValue += groupTotalPrice;
+  });
+
+  totalUnits.textContent = totalUnitsValue;
+  totalPrice.textContent = totalPriceValue.toFixed(2);
 }
 
-        function updateQuantity(productName, size, change) {
-            // Encontrar el producto específico en el carrito
-            cart.forEach(item => {
-                if (item.name === productName && item.size === size) {
-                    // Actualizar la cantidad del producto
-                    item.quantity += change;
+function updatePromoMessage() {
+  const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const promoMessageContainer = document.getElementById('promo-message-container');
+  promoMessageContainer.innerHTML = '';
 
-                    // Si la cantidad es menor o igual a 0, eliminar el producto del carrito
-                    if (item.quantity <= 0) {
-                        cart = cart.filter(cartItem => cartItem !== item);
-                    }
-                }
-            });
+  // Cantidad de shampoos que puedes agregar según el total del carrito
+  const shampooEligibleQty = Math.floor(totalPrice / shampooPromo.promoThreshold); 
+  const existingShampoo = cart.find(item => item.name === shampooPromo.name);
 
-            // Guardar el carrito actualizado en localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
+  // Cantidad de shampoos promocionales ya agregados
+  const shampoosAgregados = existingShampoo ? existingShampoo.quantity : 0;
 
-            // Actualizar el resumen del carrito
-            updateCartSummary();
+  // Calcular cuántos shampoos promocionales quedan por agregar
+  const shampoosRestantes = shampooEligibleQty - shampoosAgregados;
+
+  // Mostrar el mensaje si quedan shampoos promocionales por agregar
+  if (shampoosRestantes > 0) {
+    const promoMessage = document.createElement('div');
+    promoMessage.className = 'promo-alert';
+    promoMessage.innerHTML = `
+      🎉 ¡Felicidades! Has superado S/ ${shampooPromo.promoThreshold}. 
+      Puedes añadir ${shampoosRestantes} shampoo(s) a S/. ${shampooPromo.promoPrice} cada uno.
+      <button class="promo-button" onclick="addShampooPromo(${shampoosRestantes})">Agregar Shampoo</button>
+    `;
+    promoMessageContainer.appendChild(promoMessage);
+  }
+}
+
+function addShampooPromo(shampoosRestantes) {
+  const existingShampoo = cart.find(item => item.name === shampooPromo.name);
+
+  // Verificar si puedes agregar más shampoos promocionales
+  if (shampoosRestantes > 0) {
+    const qtyToAdd = Math.min(1, shampoosRestantes); // Agregar solo 1 shampoo promocional por vez
+
+    if (existingShampoo) {
+      existingShampoo.quantity += qtyToAdd;
+      existingShampoo.price = shampooPromo.promoPrice;
+    } else {
+      cart.push({
+        name: shampooPromo.name,
+        size: "",
+        quantity: 1,
+        price: shampooPromo.promoPrice,
+        promotion: false
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartSummary();
+    showToast('Shampoo añadido por S/. 11.9');
+
+    // Después de agregar, recalcular cuántos shampoos puedes agregar
+    updatePromoMessage();
+
+    // Si ya no puedes agregar más shampoos, eliminar el mensaje
+    if (shampoosRestantes - 1 <= 0) {
+      document.getElementById('promo-message-container').innerHTML = ''; // Limpiar mensaje cuando ya no hay shampoos para agregar
+    }
+
+  } else {
+    showToast('No puedes agregar más shampoos promocionales');
+  }
+}
+
+function updateQuantity(productName, size, change) {
+  cart.forEach(item => {
+    if (item.name === productName && item.size === size) {
+      item.quantity += change;
+      if (item.quantity <= 0) {
+        cart = cart.filter(cartItem => cartItem !== item);
+      }
+    }
+  });
+
+  // Calcular el total gastado en el carrito para determinar los shampoos promocionales
+  const totalSpent = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const maxShampoosPromo = Math.floor(totalSpent / shampooPromo.promoThreshold); // Cantidad máxima de shampoos a precio promocional
+
+  // Obtener el shampoo en el carrito
+  const existingShampoo = cart.find(item => item.name === shampooPromo.name);
+  if (existingShampoo) {
+    const totalShampooQty = existingShampoo.quantity;
+
+    // Determinar cuántos shampoos son promocionales y cuántos son a precio completo
+    const promoShampoosQty = Math.min(totalShampooQty, maxShampoosPromo);
+    const fullPriceShampoosQty = totalShampooQty - promoShampoosQty;
+
+    // Asignar precios correctos a los shampoos según su cantidad
+    let totalPromoShampoosPrice = promoShampoosQty * shampooPromo.promoPrice;
+    let totalFullPriceShampoos = fullPriceShampoosQty * shampooPromo.regularPrice;
+
+    // Asignar el precio total calculado a los shampoos
+    existingShampoo.price = (totalPromoShampoosPrice + totalFullPriceShampoos) / totalShampooQty;
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartSummary();
+  updatePromoMessage(); // Verificar si se muestra el mensaje de la promoción
+}
+
+    function toggleDetails() {
+      const detailsContainer = document.getElementById('details-container');
+      detailsContainer.style.display = detailsContainer.style.display === "block" ? "none" : "block";
+    }
+
+    function sendOrder() {
+      if (cart.length === 0) {
+        alert("El carrito está vacío. Agrega productos antes de enviar el pedido.");
+        return;
+      }
+
+      let message = '🛒 *Pedido de productos:* \n\n';
+      const groupedCart = {};
+      cart.forEach(item => {
+        const productKey = item.name;
+        if (!groupedCart[productKey]) {
+          groupedCart[productKey] = {
+            name: item.name,
+            totalQuantity: 0,
+            items: [],
+            price: item.price,
+            promotion: item.promotion
+          };
         }
+        groupedCart[productKey].totalQuantity += item.quantity;
+        groupedCart[productKey].items.push(item);
+      });
 
-        function toggleDetails() {
-            const detailsContainer = document.getElementById('details-container');
-            detailsContainer.style.display = detailsContainer.style.display === "block" ? "none" : "block";
-        }
+      Object.values(groupedCart).forEach(group => {
+        const { name, items, price, promotion } = group;
+        let subtotal = 0;
 
-        function sendOrder() {
-            let message = '🛒 *Pedido de productos:* \n\n';
-            cart.forEach(item => {
-                message += `*Producto:* ${item.name} ${item.color}\n*Talla:* ${item.size}\n*Cantidad:* ${item.quantity}\n\n`;
-            });
+        items.forEach(item => {
+          subtotal += item.price * item.quantity;
+          message += `🛍️ *Producto:* ${item.name}\n🔖 *Talla:* ${item.size}\n📦 *Cantidad:* ${item.quantity}\n💰 *Subtotal:* S/. ${subtotal.toFixed(2)}\n\n`;
+        });
+      });
 
-            const totalPrice = document.getElementById('total-price').textContent;
-            message += `*Total a pagar:* S/. ${totalPrice}\n`;
+      const totalPrice = document.getElementById('total-price').textContent;
+      message += `💵 *Total a pagar:* S/. ${totalPrice}\n📱 *Gracias por tu compra!*\n`;
 
-            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-    </script>
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
 
+    function showToast(message) {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
 
-</body></html>
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => toast.classList.add('show'), 100);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      updateCartSummary();
+      updatePromoMessage();
+
+      const hasPromotion = document.querySelector('.product-block').getAttribute('data-promotion') === "true";
+      if (hasPromotion) {
+        document.getElementById('promotion-message').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+
+</html>
